@@ -1,0 +1,480 @@
+*************************************************************************
+**   AndroBugs Framework - Android App Security Vulnerability Scanner  **
+**                            version: 1.0.0                           **
+**     author: Yu-Cheng Lin (@AndroBugs, http://www.AndroBugs.com)     **
+**               contact: androbugs.framework@gmail.com                **
+*************************************************************************
+Platform: Android
+Package Name: com.lenovo.anyshare.gps
+Package Version Name: 5.5.28_ww
+Package Version Code: 4050528
+Min Sdk: 16
+Target Sdk: 28
+MD5   : 2fc573bc8e73ce998f44eca0f3138332
+SHA1  : d126802751047eb67aa9fe1ab62d67166dbd1feb
+SHA256: a55495455d2ec98daa6170dbd299fccff4b7b655150d98ddac58680e8d9964dc
+SHA512: d351fbc5c400a9f1618c9f0e5689b115f9f1c2b5db698a6b00aadf29096a95ab2a19d51a4cd4dbeaed0dcb0cea6cfa3afc9129103a2becc4df41b80204cc2cf0
+Analyze Signature: 672c98e0859f311e9bb6fe7f3e8378d864ce12b32be5045d4e4c9b625cfe094563f757a6603a0108bd9f7c960155fa081e9660b3b032f7ce5a445d01e9c6742b
+------------------------------------------------------------------------------------------------
+[Critical] <Implicit_Intent> Implicit Service Checking:
+           To ensure your app is secure, always use an explicit intent when starting a Service and DO NOT declare intent filters for your
+           services. Using an implicit intent to start a service is a security hazard because you cannot be certain what service will
+           respond to the intent, and the user cannot see which service starts.
+           Reference: http://developer.android.com/guide/components/intents-filters.html#Types
+               => com.ushareit.ccm.CommandService
+               => com.ushareit.longevity.service.ShadowService
+               => com.ushareit.longevity.service.SyncAuthenticatorService
+               => cn.jpush.android.service.ReceiverService
+               => com.baidu.android.pushservice.PushService
+               => com.tencent.android.tpush.rpc.XGRemoteService
+[Critical]  AndroidManifest "intent-filter" Settings Checking:
+           Misconfiguration in "intent-filter" of these components (AndroidManifest.xml).
+           Config "intent-filter" should have at least one "action".
+           Reference: http://developer.android.com/guide/topics/manifest/intent-filter-element.html
+                 activity => com.ushareit.hybrid.ui.HybridRemoteActivity
+                 activity => com.ushareit.hybrid.ui.HybridLocalActivity
+[Critical]  AndroidManifest ContentProvider Exported Checking:
+           Found "exported" ContentProvider, allowing any other app on the device to access it (AndroidManifest.xml). You should modify the
+           attribute to [exported="false"] or set at least "signature" protectionalLevel permission if you don't want to.
+           Vulnerable ContentProvider Case Example:
+             (1)https://www.nowsecure.com/mobile-security/ebay-android-content-provider-injection-vulnerability.html
+             (2)http://blog.trustlook.com/2013/10/23/ebay-android-content-provider-information-disclosure-vulnerability/
+             (3)http://www.wooyun.org/bugs/wooyun-2010-039169
+                 provider => com.lenovo.anyshare.game.provider.GameDownInfoProvider
+                 provider => com.ushareit.myug.MyUGProvider
+                 provider => com.ushareit.longevity.provider.ShadowContentProvider
+                 provider => com.ushareit.longevity.provider.RemoteContentProvider
+[Critical] <SSL_Security> SSL Connection Checking:
+           URLs that are NOT under SSL (Total:3):
+               http://dashif.org/guidelines/last-segment-number
+                   => Lcom/google/ads/interactivemedia/v3/internal/pw;->a(Lorg/xmlpull/v1/XmlPullParser;
+                    Lcom/google/ads/interactivemedia/v3/internal/qi; Ljava/util/List; J)Lcom/google/ads/interactivemedia/v3/internal/qi;
+               http://schemas.microsoft.com/DRM/2007/03/protocols/AcquireLicense
+                   => Lcom/google/android/exoplayer2/drm/HttpMediaDrmCallback;->executeKeyRequest(Ljava/util/UUID;
+                    Lcom/google/android/exoplayer2/drm/ExoMediaDrm$KeyRequest; Ljava/lang/String;)[B
+               http://www.dom.com/path?
+                   => Lcom/google/ads/interactivemedia/v3/internal/afl;->a(Lcom/google/ads/interactivemedia/v3/internal/aes;
+                    Lcom/google/ads/interactivemedia/v3/internal/aer; Lcom/google/ads/interactivemedia/v3/impl/data/ag;)V
+[Critical]  AndroidManifest Critical Use Permission Checking:
+           This app has very high privileges. Use it carefully.
+               Critical use-permission found: "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+               Critical use-permission found: "android.permission.RESTART_PACKAGES"
+[Warning]  Dynamic Code Loading:
+           Dynamic code loading(DexClassLoader) found:
+               => Lcom/facebook/ads/internal/dynamicloading/DynamicLoaderFactory;->makeAdsSdkClassLoader(Landroid/content/Context;)Ljava/lan
+                    g/ClassLoader; (0x126) ---> Ldalvik/system/DexClassLoader;-><init>(Ljava/lang/String; Ljava/lang/String;
+                    Ljava/lang/String; Ljava/lang/ClassLoader;)V
+               => Lcom/facebook/ads/internal/dynamicloading/DynamicLoaderFactory;->makeLegacyAdsSdkClassLoader(Landroid/content/Context;)Lda
+                    lvik/system/DexClassLoader; (0xac) ---> Ldalvik/system/DexClassLoader;-><init>(Ljava/lang/String; Ljava/lang/String;
+                    Ljava/lang/String; Ljava/lang/ClassLoader;)V
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0xc6) --->
+                    Ldalvik/system/DexClassLoader;-><init>(Ljava/lang/String; Ljava/lang/String; Ljava/lang/String;
+                    Ljava/lang/ClassLoader;)V
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0xdc) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0xf4) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x10c) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x124) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x13c) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x154) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x16c) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x184) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x19c) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x1b4) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x1cc) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x1e8) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x204) --->
+                    Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+               => Lcom/google/android/gms/gass/AdShieldVm;->loadVmClass(Lcom/google/android/gms/gass/internal/Program;)Ljava/lang/Class;
+                    (0x3a) ---> Ldalvik/system/DexClassLoader;-><init>(Ljava/lang/String; Ljava/lang/String; Ljava/lang/String;
+                    Ljava/lang/ClassLoader;)V
+               => Lcom/google/android/gms/gass/AdShieldVm;->loadVmClass(Lcom/google/android/gms/gass/internal/Program;)Ljava/lang/Class;
+                    (0x44) ---> Ldalvik/system/DexClassLoader;->loadClass(Ljava/lang/String;)Ljava/lang/Class;
+[Warning]  External Storage Accessing:
+           External storage access found (Remember DO NOT write important files to external storages):
+               => Landroidx/core/content/FileProvider;->parsePathStrategy(Landroid/content/Context;
+                    Ljava/lang/String;)Landroidx/core/content/FileProvider$PathStrategy; (0xcc) --->
+                    Landroid/os/Environment;->getExternalStorageDirectory()Ljava/io/File;
+               => Landroidx/core/os/EnvironmentCompat;->getStorageState(Ljava/io/File;)Ljava/lang/String; (0x1e) --->
+                    Landroid/os/Environment;->getExternalStorageDirectory()Ljava/io/File;
+               => Lcom/facebook/internal/v;->d()V (0xc) ---> Landroid/os/Environment;->getExternalStorageDirectory()Ljava/io/File;
+               => Lcom/facebook/internal/v;->e()V (0xc) ---> Landroid/os/Environment;->getExternalStorageDirectory()Ljava/io/File;
+[Warning]  AndroidManifest Exported Components Checking:
+           Found "exported" components(except for Launcher) for receiving outside applications' actions (AndroidManifest.xml).
+           These components can be initilized by other apps. You should add or modify the attribute to [exported="false"] if you don't want
+           to.
+           You can also protect it with a customized permission with "signature" or higher protectionLevel and specify in
+           "android:permission" attribute.
+                 activity => com.lenovo.anyshare.main.MainActivity
+                 activity => com.lenovo.anyshare.cloud.command.CommandMsgBox
+                 activity => com.ushareit.cleanit.diskclean.DiskCleanActivity
+                 activity => com.lenovo.anyshare.entry.cloneit.CloneEntryActivity
+                 activity => com.lenovo.anyshare.activity.ExternalShareActivity
+                 activity => com.lenovo.anyshare.share.ShareActivity
+                 activity => com.ushareit.longevity.activity.ShadowActivity
+                  service => com.ushareit.ccm.CommandService
+                  service => com.ushareit.longevity.service.ShadowService
+                  service => cn.jpush.android.service.ReceiverService
+                  service => com.baidu.android.pushservice.PushService
+                  service => com.tencent.android.tpush.rpc.XGRemoteService
+                 receiver => com.lenovo.anyshare.app.DefaultReceiver
+                 receiver => com.lenovo.anyshare.setting.toolbar.ToolbarReceiver
+                 receiver => com.ushareit.player.music.appwidget.AppWidgetProvider4x1
+                 receiver => com.ushareit.player.music.appwidget.AppWidgetProvider4x2
+                 receiver => com.ushareit.player.music.appwidget.AppWidgetProvider4x4
+                 receiver => com.lenovo.anyshare.datausage.toolbar.DataToolbarReceiver
+                 receiver => com.ushareit.component.notify.receiver.NotifyReceiver
+                 receiver => com.baidu.android.pushservice.RegistrationReceiver
+                 receiver => com.ushareit.longevity.receiver.ShadowReceiver
+                 receiver => com.tencent.android.tpush.XGPushReceiver
+                 receiver => com.ushareit.push.mipush.MiPushMessageReceiver
+[Warning] <Sensitive_Information> Getting IMEI and Device ID:
+           This app has code getting the "device id(IMEI)" but there are problems with this "TelephonyManager.getDeviceId()" approach.
+           1.Non-phones: Wifi-only devices or music players that don't have telephony hardware just don't have this kind of unique
+           identifier.
+           2.Persistence: On devices which do have this, it persists across device data wipes and factory resets. It's not clear at all if,
+           in this situation, your app should regard this as the same device.
+           3.Privilege:It requires READ_PHONE_STATE permission, which is irritating if you don't otherwise use or need telephony.
+           4.Bugs: We have seen a few instances of production phones for which the implementation is buggy and returns garbage, for example
+           zeros or asterisks.
+           If you want to get an unique id for the device, we suggest you use "Installation" framework in the following article.
+           Please check the reference: http://android-developers.blogspot.tw/2011/03/identifying-app-installations.html
+               => Lcom/akamai/android/analytics/am;->a(Landroid/content/Context; Z)Ljava/lang/String; (0xac) --->
+                    Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;
+               => Lcom/akamai/android/analytics/d;->c(I)Ljava/lang/String; (0x68) --->
+                    Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;
+               => Lcom/akamai/android/analytics/d;->c(I)Ljava/lang/String; (0x274) --->
+                    Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;
+[Warning] <Sensitive_Information> Getting ANDROID_ID:
+           This app has code getting the 64-bit number "Settings.Secure.ANDROID_ID".
+           ANDROID_ID seems a good choice for a unique device identifier. There are downsides: First, it is not 100% reliable on releases of
+           Android prior to 2.2 (Froyo).
+           Also, there has been at least one widely-observed bug in a popular handset from a major manufacturer, where every instance has
+           the same ANDROID_ID.
+           If you want to get an unique id for the device, we suggest you use "Installation" framework in the following article.
+           Please check the reference: http://android-developers.blogspot.tw/2011/03/identifying-app-installations.html
+               => Lcom/akamai/android/analytics/am;->a(Landroid/content/Context; Z)Ljava/lang/String; (0xd6) --->
+                    Landroid/provider/Settings$Secure;->getString(Landroid/content/ContentResolver; Ljava/lang/String;)Ljava/lang/String;
+               => Lcom/akamai/android/analytics/d;->c(I)Ljava/lang/String; (0xd8) --->
+                    Landroid/provider/Settings$Secure;->getString(Landroid/content/ContentResolver; Ljava/lang/String;)Ljava/lang/String;
+               => Lcom/appsflyer/AppsFlyerLibCore;->Ë(Lcom/appsflyer/AFEvent;)Ljava/util/Map; (0xcfe) --->
+                    Landroid/provider/Settings$Secure;->getString(Landroid/content/ContentResolver; Ljava/lang/String;)Ljava/lang/String;
+[Warning] <WebView> WebView Local File Access Attacks Checking:
+           Found "setAllowFileAccess(true)" or not set(enabled by default) in WebView. The attackers could inject malicious script into
+           WebView and exploit the opportunity to access local resources. This can be mitigated or prevented by disabling local file system
+           access. (It is enabled by default)
+           Note that this enables or disables file system access only. Assets and resources are still accessible using file:///android_asset
+           and file:///android_res.
+           The attackers can use "mWebView.loadUrl("file:///data/data/[Your_Package_Name]/[File]");" to access app's local file.
+           Reference: (1)https://labs.mwrinfosecurity.com/blog/2012/04/23/adventures-with-android-webviews/
+                      (2)http://developer.android.com/reference/android/webkit/WebSettings.html#setAllowFileAccess(boolean)
+           Please add or modify "yourWebView.getSettings().setAllowFileAccess(false)" to your WebView:
+               Landroidx/test/espresso/matcher/ViewMatchers$IsJavascriptEnabledMatcher;->matchesSafely(Landroid/webkit/WebView;)Z
+               Lcom/facebook/internal/x;->b(I)V
+               Lcom/google/ads/interactivemedia/v3/internal/aed;-><init>(Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/afc; Lcom/google/ads/interactivemedia/v3/impl/data/CompanionData;
+                    Ljava/util/List;)V
+               Lcom/google/ads/interactivemedia/v3/internal/afa;-><init>(Landroid/webkit/WebView;
+                    Lcom/google/ads/interactivemedia/v3/internal/afc;)V
+               Lcom/google/ads/interactivemedia/v3/internal/w;-><init>(Landroid/webkit/WebView;)V
+               Lcom/google/ads/interactivemedia/v3/internal/y;->a()V
+               Lcom/google/android/gms/ads/internal/zzl;-><init>(Landroid/content/Context; Lcom/google/android/gms/internal/ads/zzuj;
+                    Ljava/lang/String; Lcom/google/android/gms/internal/ads/zzazb;)V
+[Warning] <WebView> WebView Potential XSS Attacks Checking:
+           Found "setJavaScriptEnabled(true)" in WebView, which could exposed to potential XSS attacks. Please check the web page code
+           carefully and sanitize the output:
+               => Lcom/facebook/internal/x;->b(I)V (0x62) ---> Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+               => Lcom/google/ads/interactivemedia/v3/internal/aed;-><init>(Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/afc; Lcom/google/ads/interactivemedia/v3/impl/data/CompanionData;
+                    Ljava/util/List;)V (0x10) ---> Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+               => Lcom/google/ads/interactivemedia/v3/internal/afa;-><init>(Landroid/webkit/WebView;
+                    Lcom/google/ads/interactivemedia/v3/internal/afc;)V (0x56) ---> Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+               => Lcom/google/ads/interactivemedia/v3/internal/w;-><init>(Landroid/webkit/WebView;)V (0x28) --->
+                    Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+               => Lcom/google/ads/interactivemedia/v3/internal/y;->a()V (0x32) ---> Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+               => Lcom/google/android/gms/ads/internal/zzl;-><init>(Landroid/content/Context; Lcom/google/android/gms/internal/ads/zzuj;
+                    Ljava/lang/String; Lcom/google/android/gms/internal/ads/zzazb;)V (0x6c) --->
+                    Landroid/webkit/WebSettings;->setJavaScriptEnabled(Z)V
+[Notice] <Database><#CVE-2011-3901#> Android SQLite Databases Vulnerability Checking:
+           This app is using Android SQLite databases but it's "NOT" suffering from SQLite Journal Information Disclosure Vulnerability.
+[Notice]  File Unsafe Delete Checking:
+           Everything you delete may be recovered by any user or attacker, especially rooted devices.
+           Please make sure do not use "file.delete()" to delete essential files.
+           Check this video: https://www.youtube.com/watch?v=tGw1fxUD-uY
+               => Landroidx/core/content/FileProvider;->delete(Landroid/net/Uri; Ljava/lang/String; [Ljava/lang/String;)I (0xc) --->
+                    Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromInputStream(Landroid/content/Context;
+                    Ljava/io/InputStream;)Landroid/graphics/Typeface; (0x1c) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromInputStream(Landroid/content/Context;
+                    Ljava/io/InputStream;)Landroid/graphics/Typeface; (0x34) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromInputStream(Landroid/content/Context;
+                    Ljava/io/InputStream;)Landroid/graphics/Typeface; (0x3e) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromInputStream(Landroid/content/Context;
+                    Ljava/io/InputStream;)Landroid/graphics/Typeface; (0x46) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromResourcesFontFile(Landroid/content/Context;
+                    Landroid/content/res/Resources; I Ljava/lang/String; I)Landroid/graphics/Typeface; (0x1c) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromResourcesFontFile(Landroid/content/Context;
+                    Landroid/content/res/Resources; I Ljava/lang/String; I)Landroid/graphics/Typeface; (0x34) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromResourcesFontFile(Landroid/content/Context;
+                    Landroid/content/res/Resources; I Ljava/lang/String; I)Landroid/graphics/Typeface; (0x3e) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatBaseImpl;->createFromResourcesFontFile(Landroid/content/Context;
+                    Landroid/content/res/Resources; I Ljava/lang/String; I)Landroid/graphics/Typeface; (0x46) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatUtil;->copyToDirectBuffer(Landroid/content/Context; Landroid/content/res/Resources;
+                    I)Ljava/nio/ByteBuffer; (0x1c) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatUtil;->copyToDirectBuffer(Landroid/content/Context; Landroid/content/res/Resources;
+                    I)Ljava/nio/ByteBuffer; (0x2c) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatUtil;->copyToDirectBuffer(Landroid/content/Context; Landroid/content/res/Resources;
+                    I)Ljava/nio/ByteBuffer; (0x36) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/util/AtomicFile;->delete()V (0x4) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/util/AtomicFile;->delete()V (0xe) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/util/AtomicFile;->failWrite(Ljava/io/FileOutputStream;)V (0x14) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/util/AtomicFile;->finishWrite(Ljava/io/FileOutputStream;)V (0x14) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/util/AtomicFile;->openRead()Ljava/io/FileInputStream; (0x14) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/util/AtomicFile;->startWrite()Ljava/io/FileOutputStream; (0x7e) ---> Ljava/io/File;->delete()Z
+               => Landroidx/multidex/MultiDex;->clearOldDexDir(Landroid/content/Context;)V (0xf8) ---> Ljava/io/File;->delete()Z
+               => Landroidx/multidex/MultiDex;->clearOldDexDir(Landroid/content/Context;)V (0x16c) ---> Ljava/io/File;->delete()Z
+               => Landroidx/multidex/MultiDexExtractor;->clearDexDir()V (0xb2) ---> Ljava/io/File;->delete()Z
+               => Landroidx/multidex/MultiDexExtractor;->extract(Ljava/util/zip/ZipFile; Ljava/util/zip/ZipEntry; Ljava/io/File;
+                    Ljava/lang/String;)V (0x134) ---> Ljava/io/File;->delete()Z
+               => Landroidx/multidex/MultiDexExtractor;->extract(Ljava/util/zip/ZipFile; Ljava/util/zip/ZipEntry; Ljava/io/File;
+                    Ljava/lang/String;)V (0x1fe) ---> Ljava/io/File;->delete()Z
+               => Landroidx/sqlite/db/SupportSQLiteOpenHelper$Callback;->deleteDatabaseFile(Ljava/lang/String;)V (0x7a) --->
+                    Ljava/io/File;->delete()Z
+               => Lcom/appsflyer/internal/ag;->à¥±(Ljava/lang/ref/WeakReference;)Ljava/lang/String; (0xe6) ---> Ljava/io/File;->delete()Z
+               => Lcom/appsflyer/internal/z;->Ë(Ljava/lang/String; Landroid/content/Context;)V (0x5c) ---> Ljava/io/File;->delete()Z
+               => Lcom/bytedance/boost_multidex/Utility;->clearDirFiles(Ljava/io/File;)V (0xba) ---> Ljava/io/File;->delete()Z
+               => Lcom/bytedance/boost_multidex/Utility;->obtainEntryFileFromInputStream(Ljava/io/InputStream; Ljava/io/File;)Ljava/io/File;
+                    (0xd4) ---> Ljava/io/File;->delete()Z
+               => Lcom/bytedance/boost_multidex/Utility;->obtainEntryFileFromInputStream(Ljava/io/InputStream; Ljava/io/File;)Ljava/io/File;
+                    (0x194) ---> Ljava/io/File;->delete()Z
+               => Lcom/bytedance/boost_multidex/Utility;->obtainZipForEntryFileInZip(Ljava/util/zip/ZipFile; Ljava/util/zip/ZipEntry;
+                    Ljava/io/File;)V (0xea) ---> Ljava/io/File;->delete()Z
+               => Lcom/bytedance/boost_multidex/Utility;->obtainZipForEntryFileInZip(Ljava/util/zip/ZipFile; Ljava/util/zip/ZipEntry;
+                    Ljava/io/File;)V (0x1b4) ---> Ljava/io/File;->delete()Z
+               => Lcom/bytedance/boost_multidex/Utility;->obtainZipForEntryFileInZip(Ljava/util/zip/ZipFile; Ljava/util/zip/ZipEntry;
+                    Ljava/io/File;)V (0x1c4) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/appevents/f;->a()Lcom/facebook/appevents/i; (0x54) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/appevents/f;->a()Lcom/facebook/appevents/i; (0x9c) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/appevents/f;->a()Lcom/facebook/appevents/i; (0xce) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/appevents/f;->a()Lcom/facebook/appevents/i; (0xfc) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/appevents/f;->a(Lcom/facebook/appevents/i;)V (0x62) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/internal/l$2;->run()V (0x10) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/internal/l$a;->a(Ljava/io/File;)V (0x20) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/internal/l;->a(Ljava/lang/String; Ljava/io/File;)V (0x22) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/internal/l;->d()V (0x198) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/internal/l;->b(Ljava/lang/String; Ljava/lang/String;)Ljava/io/OutputStream; (0xc) --->
+                    Ljava/io/File;->delete()Z
+               => Lcom/facebook/internal/v;->a(Ljava/io/File;)V (0x3e) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/upstream/cache/CachedContent;->removeSpan(Lcom/google/android/exoplayer2/upstream/cache/Cac
+                    heSpan;)Z (0x14) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/util/AtomicFile;->restoreBackup()V (0x14) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/util/AtomicFile;->delete()V (0x4) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/util/AtomicFile;->delete()V (0xe) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/util/AtomicFile;->endWrite(Ljava/io/OutputStream;)V (0xa) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/util/AtomicFile;->startWrite()Ljava/io/OutputStream; (0x7e) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/util/Util;->createTempDirectory(Landroid/content/Context; Ljava/lang/String;)Ljava/io/File;
+                    (0x8) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/util/Util;->recursiveDelete(Ljava/io/File;)V (0x2c) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/gms/gass/internal/zzj;->zza(Ljava/io/File; Z)Ljava/io/File; (0x1c) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/gms/gass/internal/zzj;->zzd(Ljava/io/File;)Z (0x3c) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatApi21Impl;->createFromFontFamilyFilesResourceEntry(Landroid/content/Context;
+                    Landroidx/core/content/res/FontResourcesParserCompat$FontFamilyFilesResourceEntry; Landroid/content/res/Resources;
+                    I)Landroid/graphics/Typeface; (0x40) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatApi21Impl;->createFromFontFamilyFilesResourceEntry(Landroid/content/Context;
+                    Landroidx/core/content/res/FontResourcesParserCompat$FontFamilyFilesResourceEntry; Landroid/content/res/Resources;
+                    I)Landroid/graphics/Typeface; (0x6c) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatApi21Impl;->createFromFontFamilyFilesResourceEntry(Landroid/content/Context;
+                    Landroidx/core/content/res/FontResourcesParserCompat$FontFamilyFilesResourceEntry; Landroid/content/res/Resources;
+                    I)Landroid/graphics/Typeface; (0x74) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatApi21Impl;->createFromFontFamilyFilesResourceEntry(Landroid/content/Context;
+                    Landroidx/core/content/res/FontResourcesParserCompat$FontFamilyFilesResourceEntry; Landroid/content/res/Resources;
+                    I)Landroid/graphics/Typeface; (0x82) ---> Ljava/io/File;->delete()Z
+               => Landroidx/core/graphics/TypefaceCompatApi21Impl;->createFromFontFamilyFilesResourceEntry(Landroid/content/Context;
+                    Landroidx/core/content/res/FontResourcesParserCompat$FontFamilyFilesResourceEntry; Landroid/content/res/Resources;
+                    I)Landroid/graphics/Typeface; (0x8a) ---> Ljava/io/File;->delete()Z
+               => Landroidx/documentfile/provider/RawDocumentFile;->deleteContents(Ljava/io/File;)Z (0x34) ---> Ljava/io/File;->delete()Z
+               => Landroidx/documentfile/provider/RawDocumentFile;->delete()Z (0xe) ---> Ljava/io/File;->delete()Z
+               => Lcom/facebook/internal/l$1;->a()V (0x24) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x436) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x45a) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x49a) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/ads/interactivemedia/v3/internal/ago;->a(Ljava/lang/String; Landroid/content/Context;
+                    Lcom/google/ads/interactivemedia/v3/internal/agv;)V (0x4ba) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/upstream/cache/CacheDataSink;->closeCurrentOutputStream()V (0x66) --->
+                    Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/upstream/cache/SimpleCache;->initialize()V (0xb0) ---> Ljava/io/File;->delete()Z
+               => Lcom/google/android/exoplayer2/upstream/cache/SimpleCache;->commitFile(Ljava/io/File;)V (0x7e) --->
+                    Ljava/io/File;->delete()Z
+               => Lcom/google/android/gms/common/data/BitmapTeleporter;->zabx()Ljava/io/FileOutputStream; (0x32) --->
+                    Ljava/io/File;->delete()Z
+[Notice] <Debug><Hacker> Codes for Checking Android Debug Mode:
+           Found codes for checking "ApplicationInfo.FLAG_DEBUGGABLE" in AndroidManifest.xml:
+               => Lcom/google/android/gms/common/GoogleSignatureVerifier;->zza (Ljava/lang/String; I)Lcom/google/android/gms/common/zzm;
+               => Lcom/google/android/gms/common/GoogleSignatureVerifier;->zzc (Ljava/lang/String;)Lcom/google/android/gms/common/zzm;
+[Notice] <Hacker> APK Installing Source Checking:
+           This app has code checking APK installer sources(e.g. from Google Play, from Amazon, etc.). It might be used to check for whether
+           the app is hacked by the attackers.
+               => Lcom/facebook/internal/b;->e(Landroid/content/Context;)Ljava/lang/String; (0x14) --->
+                    Landroid/content/pm/PackageManager;->getInstallerPackageName(Ljava/lang/String;)Ljava/lang/String;
+               => Lcom/appsflyer/AppsFlyerLibCore;->Ë(Lcom/appsflyer/AFEvent;)Ljava/util/Map; (0x65e) --->
+                    Landroid/content/pm/PackageManager;->getInstallerPackageName(Ljava/lang/String;)Ljava/lang/String;
+[Notice] <KeyStore><Hacker> KeyStore File Location:
+           BKS Keystore file:
+               com/google/api/client/googleapis/google.jks
+[Notice] <KeyStore><Hacker> Possible KeyStore File Location:
+           BKS possible keystore file:
+               assets/cert/paygate_release_crt
+               assets/cert/paygate_release_p12
+[Notice] <Signature><Hacker> Getting Signature Code Checking:
+           This app has code checking the package signature in the code. It might be used to check for whether the app is hacked by the
+           attackers.
+               => Landroidx/core/provider/FontsContractCompat;->getProvider(Landroid/content/pm/PackageManager;
+                    Landroidx/core/provider/FontRequest; Landroid/content/res/Resources;)Landroid/content/pm/ProviderInfo; (0x36) --->
+                    Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String; I)Landroid/content/pm/PackageInfo;
+               => Lcom/appsflyer/internal/EventDataCollector;->signature()Ljava/lang/String; (0x1c) --->
+                    Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String; I)Landroid/content/pm/PackageInfo;
+               => Lcom/appsflyer/internal/ad$2;->call()Ljava/lang/Object; (0x3e) --->
+                    Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String; I)Landroid/content/pm/PackageInfo;
+               => Lcom/facebook/internal/h;->a(Landroid/content/Context; Ljava/lang/String;)Z (0x3a) --->
+                    Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String; I)Landroid/content/pm/PackageInfo;
+               => Lcom/google/android/gms/common/GooglePlayServicesUtilLight;->zza(Landroid/content/Context; Z I)I (0x50) --->
+                    Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String; I)Landroid/content/pm/PackageInfo;
+               => Lcom/google/android/gms/common/util/UidVerifier;->isGooglePlayServicesUid(Landroid/content/Context; I)Z (0x20) --->
+                    Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String; I)Landroid/content/pm/PackageInfo;
+               => Lcom/google/android/gms/common/wrappers/PackageManagerWrapper;->zza(Ljava/lang/String; I
+                    I)Landroid/content/pm/PackageInfo; (0x10) ---> Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;
+                    I)Landroid/content/pm/PackageInfo;
+[Notice]  Native Library Loading Checking:
+           Native library loading codes(System.loadLibrary(...)) found:
+               [libglide-webp.so]
+               => Lcom/bumptech/glide/integration/webp/WebpBitmapFactory;-><clinit>()V (0x4) --->
+                    Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
+               [libglide-webp.so]
+               => Lcom/bumptech/glide/integration/webp/WebpImage;-><clinit>()V (0x4) --->
+                    Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
+[Notice]  AndroidManifest Exported Components Checking 2:
+           Found "exported" components(except for Launcher) for receiving Google's "Android" actions (AndroidManifest.xml):
+                 activity => com.lenovo.anyshare.scheme.SchemeFilterActivity
+                 activity => com.lenovo.anyshare.download.ui.DownloadActivity
+                 activity => com.lenovo.anyshare.download.ui.DownloadProgressActivity
+                 activity => com.ushareit.pay.payment.ui.request.PaymentRequestActivity
+                 activity => com.ushareit.pay.upi.ui.activity.UpiP2pTxnActivity
+                 activity => com.lenovo.anyshare.activity.InviteActivityFree
+                 activity => com.lenovo.anyshare.content.webshare.WebShareJIOStartActivity
+                 activity => com.ushareit.router.UriProxyActivity
+                 activity => com.ushareit.ads.download.SapkInstallerActivity
+                 activity => androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity
+                 activity => androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity
+                 activity => androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity
+               activity-alias => com.ushareit.bizlocal.transfer.ExternalPCActivity
+                  service => com.ushareit.hybrid.service.HybridService
+                  service => com.ushareit.longevity.service.SyncAccountService
+                  service => com.ushareit.longevity.service.SyncAuthenticatorService
+                  service => com.tencent.android.tpush.service.XGPushServiceV4
+                  service => com.xiaomi.mipush.sdk.PushMessageHandler
+                 receiver => com.ushareit.player.music.receiver.RemotePlaybackReceiver
+                 receiver => com.ushareit.traffic.SysNetworkStats$NetworkStatsReceiver
+                 receiver => com.ushareit.paysdk.language.SPLocaleChangeReceiver
+                 receiver => com.appsflyer.MultipleInstallBroadcastReceiver
+                 receiver => com.xiaomi.push.service.receivers.NetworkStatusReceiver
+                 receiver => com.ushareit.ads.download.receiver.NetWorkChangReceiver
+[Info]  AndroidManifest Adb Backup Checking:
+           This app has disabled Adb Backup.
+[Info] <Command> Runtime Command Checking:
+           This app is not using critical function 'Runtime.getRuntime().exec("...")'.
+[Info] <Command> Executing "root" or System Privilege Checking:
+           Did not find codes checking "root" permission(su) or getting system permission (It's still possible we did not find out).
+[Info] <Database> SQLiteDatabase Transaction Deprecated Checking:
+           Ignore checking "SQLiteDatabase:beginTransactionNonExclusive" because your set minSdk >= 11.
+[Info] <Database> Android SQLite Databases Encryption (SQLite Encryption Extension (SEE)):
+           This app is "NOT" using SQLite Encryption Extension (SEE) on Android (http://www.sqlite.org/android) to encrypt or decrpyt
+           databases.
+[Info] <Database> Android SQLite Databases Encryption (SQLCipher):
+           This app is "NOT" using SQLCipher(http://sqlcipher.net/) to encrypt or decrpyt databases.
+[Info] <Debug> Android Debug Mode Checking:
+           DEBUG mode is OFF(android:debuggable="false") in AndroidManifest.xml.
+[Info] <#BID 64208, CVE-2013-6271#> Fragment Vulnerability Checking:
+           Did not detect the vulnerability of "Fragment" dynamically loading into "PreferenceActivity" or "SherlockPreferenceActivity"
+[Info] <Framework> Framework - MonoDroid:
+           This app is NOT using MonoDroid Framework (http://xamarin.com/android).
+[Info] <Hacker> Base64 String Encryption:
+           No encoded Base64 String or Urls found.
+[Info] <Database><Hacker> Key for Android SQLite Databases Encryption:
+           Did not find using the symmetric key(PRAGMA key) to encrypt the SQLite databases (It's still possible that it might use but we
+           did not find out).
+[Info] <KeyStore><Hacker> KeyStore Protection Checking:
+           Ignore checking KeyStore protected by password or not because you're not using KeyStore.
+[Info] <Hacker> Code Setting Preventing Screenshot Capturing:
+           Did not detect this app has code setting preventing screenshot capturing.
+[Info]  HttpURLConnection Android Bug Checking:
+           Ignore checking "http.keepAlive" because you're not using "HttpURLConnection" and min_Sdk > 8.
+[Info] <KeyStore> KeyStore Type Checking:
+           KeyStore 'BKS' type check OK
+[Info]  Google Cloud Messaging Suggestion:
+           Nothing to suggest.
+[Info] <#CVE-2013-4787#> Master Key Type I Vulnerability:
+           No Master Key Type I Vulnerability in this APK.
+[Info]  App Sandbox Permission Checking:
+           No security issues "MODE_WORLD_READABLE" or "MODE_WORLD_WRITEABLE" found on 'openOrCreateDatabase' or 'openOrCreateDatabase2' or
+           'getDir' or 'getSharedPreferences' or 'openFileOutput'
+[Info]  AndroidManifest Dangerous ProtectionLevel of Permission Checking:
+           No "dangerous" protection level customized permission found (AndroidManifest.xml).
+[Info]  AndroidManifest PermissionGroup Checking:
+           PermissionGroup in permission tag of AndroidManifest sets correctly.
+[Info]  AndroidManifest Normal ProtectionLevel of Permission Checking:
+           No default or "normal" protection level customized permission found (AndroidManifest.xml).
+[Info] <#CVE-2013-6272#> AndroidManifest Exported Lost Prefix Checking:
+           No exported components that forgot to add "android:" prefix.
+[Info]  Codes for Sending SMS:
+           Did not detect this app has code for sending SMS messages (sendDataMessage, sendMultipartTextMessage or sendTextMessage).
+[Info] <System> AndroidManifest sharedUserId Checking:
+           This app does not use "android.uid.system" sharedUserId.
+[Info] <SSL_Security> SSL Implementation Checking (Verifying Host Name in Custom Classes):
+           Self-defined HOSTNAME VERIFIER checking OK.
+[Info] <SSL_Security> SSL Implementation Checking (Verifying Host Name in Fields):
+           Critical vulnerability "ALLOW_ALL_HOSTNAME_VERIFIER" field setting or "AllowAllHostnameVerifier" class instance not found.
+[Info] <SSL_Security> SSL Implementation Checking (Insecure component):
+           Did not detect SSLSocketFactory by insecure method "getInsecure".
+[Info] <SSL_Security> SSL Implementation Checking (HttpHost):
+           DEFAULT_SCHEME_NAME for HttpHost check: OK
+[Info] <SSL_Security> SSL Implementation Checking (WebViewClient for WebView):
+           Did not detect critical usage of "WebViewClient"(MITM Vulnerability).
+[Info] <SSL_Security> SSL Certificate Verification Checking:
+           Did not find vulnerable X509Certificate code.
+[Info]  Unnecessary Permission Checking:
+           Permission 'android.permission.ACCESS_MOCK_LOCATION' sets correctly.
+[Info]  Accessing the Internet Checking:
+           This app is using the Internet via HTTP protocol.
+[Info] <WebView><Remote Code Execution><#CVE-2013-4710#> WebView RCE Vulnerability Checking:
+           WebView addJavascriptInterface vulnerabilities not found.
+------------------------------------------------------------
+AndroBugs analyzing time: 8.795633 secs
+Total elapsed time: 72.921747 secs
